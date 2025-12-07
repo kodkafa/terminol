@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { TerminolPlugin, TerminolTheme } from "../core/types";
-import { useTerminol } from "../core/state/context";
+import React from "react";
 import { cn } from "@/lib/utils";
+import { useTerminol } from "../core/state/context";
+import type { TerminolPlugin, TerminolTheme } from "../core/types";
 
 const HelpMessage = ({
   filterTag,
   commandName,
-  theme
+  theme,
 }: {
   filterTag?: string;
   commandName?: string;
@@ -26,11 +26,26 @@ const HelpMessage = ({
     return (
       <div className="flex flex-col gap-2 mt-2">
         <div className="flex items-baseline gap-3">
-          <span className={cn("text-lg font-bold", theme.success || "text-green-500")}>{cmd.name}</span>
+          <span
+            className={cn(
+              "text-lg font-bold",
+              theme.success || "text-green-500",
+            )}
+          >
+            {cmd.name}
+          </span>
           {cmd.tags && (
             <div className="flex gap-1">
-              {cmd.tags.map(tag => (
-                <span key={tag} className={cn("text-xs px-1 rounded bg-white/10", theme.muted || "text-muted-foreground")}>{tag}</span>
+              {cmd.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className={cn(
+                    "text-xs px-1 rounded bg-white/10",
+                    theme.muted || "text-muted-foreground",
+                  )}
+                >
+                  {tag}
+                </span>
               ))}
             </div>
           )}
@@ -39,8 +54,12 @@ const HelpMessage = ({
 
         {cmd.aliases && cmd.aliases.length > 0 && (
           <div className="text-sm">
-            <span className={theme.warning || "text-yellow-500"}>Aliases: </span>
-            <span className={theme.muted || "text-muted-foreground"}>{cmd.aliases.join(", ")}</span>
+            <span className={theme.warning || "text-yellow-500"}>
+              Aliases:{" "}
+            </span>
+            <span className={theme.muted || "text-muted-foreground"}>
+              {cmd.aliases.join(", ")}
+            </span>
           </div>
         )}
       </div>
@@ -49,7 +68,7 @@ const HelpMessage = ({
 
   const commands = registry.getAll();
   const filteredCommands = filterTag
-    ? commands.filter(c => c.tags?.includes(filterTag))
+    ? commands.filter((c) => c.tags?.includes(filterTag))
     : commands;
 
   if (filteredCommands.length === 0) {
@@ -68,14 +87,25 @@ const HelpMessage = ({
       <div className="grid grid-cols-[120px_1fr] gap-x-4 gap-y-1">
         {filteredCommands.map((cmd) => (
           <React.Fragment key={cmd.name}>
-            <div className={cn("font-mono", theme.success || "text-green-500")}>{cmd.name}</div>
-            <div className={theme.muted || "text-muted-foreground"}>{cmd.description}</div>
+            <div className={cn("font-mono", theme.success || "text-green-500")}>
+              {cmd.name}
+            </div>
+            <div className={theme.muted || "text-muted-foreground"}>
+              {cmd.description}
+            </div>
           </React.Fragment>
         ))}
       </div>
       {!filterTag && (
-        <div className={cn("mt-2 text-xs", theme.muted || "text-muted-foreground")}>
-          Type <span className={theme.success || "text-green-500"}>help [command]</span> for details or use <span className={theme.success || "text-green-500"}>--tag</span>.
+        <div
+          className={cn("mt-2 text-xs", theme.muted || "text-muted-foreground")}
+        >
+          Type{" "}
+          <span className={theme.success || "text-green-500"}>
+            help [command]
+          </span>{" "}
+          for details or use{" "}
+          <span className={theme.success || "text-green-500"}>--tag</span>.
         </div>
       )}
     </div>
@@ -102,6 +132,12 @@ export const helpPlugin: TerminolPlugin = {
       commandName = args[0];
     }
 
-    print(<HelpMessage filterTag={filterTag} commandName={commandName} theme={theme} />);
+    print(
+      <HelpMessage
+        filterTag={filterTag}
+        commandName={commandName}
+        theme={theme}
+      />,
+    );
   },
 };

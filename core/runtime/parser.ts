@@ -1,4 +1,7 @@
-export function parseCommand(input: string): { command: string; args: string[] } {
+export function parseCommand(input: string): {
+  command: string;
+  args: string[];
+} {
   const trimmed = input.trim();
   if (!trimmed) {
     return { command: "", args: [] };

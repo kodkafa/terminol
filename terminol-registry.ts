@@ -2,7 +2,7 @@
 // to generate the JSON registry.
 // It can also export helper functions for consumers to register plugins.
 
-import { TerminolPlugin } from "./core/types";
+import type { TerminolPlugin } from "./core/types";
 
 export function createPlugin(plugin: TerminolPlugin): TerminolPlugin {
   return plugin;

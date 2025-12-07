@@ -1,10 +1,12 @@
-import { TerminolPlugin } from "../types";
+import type { TerminolPlugin } from "../types";
 
 export class CommandRegistry {
   private plugins: Map<string, TerminolPlugin> = new Map();
 
   constructor(plugins: TerminolPlugin[] = []) {
-    plugins.forEach((p) => this.register(p));
+    plugins.forEach((p) => {
+      this.register(p);
+    });
   }
 
   register(plugin: TerminolPlugin) {
@@ -21,7 +23,9 @@ export class CommandRegistry {
   getAll(): TerminolPlugin[] {
     // Return unique plugins (deduplicate aliases)
     const unique = new Set<TerminolPlugin>();
-    this.plugins.forEach((p) => unique.add(p));
+    this.plugins.forEach((p) => {
+      unique.add(p);
+    });
     return Array.from(unique);
   }
 }

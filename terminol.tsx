@@ -2,19 +2,25 @@
 
 import React from "react";
 import { TerminolProvider, useTerminol } from "./core/state/context";
-import { TerminolAdapter } from "./ui/adapter-default";
-import { TerminolPlugin, TerminolCommandContext, TerminolTheme } from "./core/types";
-import { helpPlugin } from "./plugins/help";
+import type {
+  TerminolCommandContext,
+  TerminolMiddleware,
+  TerminolPlugin,
+  TerminolTheme,
+} from "./core/types";
 import { clearPlugin } from "./plugins/clear";
+import { helpPlugin } from "./plugins/help";
+import { TerminolAdapter } from "./ui/adapter-default";
 
 export type TerminolProps = {
   plugins?: TerminolPlugin[];
-  init?: string[];                           // commands to run on startup
+  init?: string[]; // commands to run on startup
   prompt?: string;
 
   // Styling
   className?: string;
   theme?: TerminolTheme;
+  header?: React.ReactNode; // [NEW] Custom header content (e.g. badges, links)
 
   // Options
   initialHistory?: string[];
@@ -22,13 +28,19 @@ export type TerminolProps = {
   storageKey?: string;
 
   // Events
+  // Events
   onCommandExecuted?: (command: string, ctx: TerminolCommandContext) => void;
+
+  // NEW
+  middlewares?: TerminolMiddleware[];
 };
 
 function TerminolInner({
   className,
+  header,
 }: {
   className?: string;
+  header?: React.ReactNode;
 }) {
   const {
     outputs,
@@ -44,7 +56,7 @@ function TerminolInner({
     abortInteractive,
     closeModal,
     hideOverlay,
-    registry // Need registry for autocompletion
+    registry, // Need registry for autocompletion
   } = useTerminol();
 
   const [input, setInput] = React.useState("");
@@ -72,15 +84,16 @@ function TerminolInner({
       if (inputMode === "interactive") return; // No autocomplete in interactive mode usually
 
       const parts = input.trim().split(" ");
-      const currentWord = parts[parts.length - 1]; // Simply complete the last word or just the command?
+      const _currentWord = parts[parts.length - 1]; // Simply complete the last word or just the command?
       // Shell usually autocompletes the FIRST word as command, others as args (if sophisticated).
       // For now, let's just autocomplete the command if it's the first word or we are at start.
 
       if (parts.length <= 1) {
-        const candidates = registry.getAll()
-          .map(p => p.name)
-          .concat(registry.getAll().flatMap(p => p.aliases || []))
-          .filter(name => name.startsWith(input));
+        const candidates = registry
+          .getAll()
+          .map((p) => p.name)
+          .concat(registry.getAll().flatMap((p) => p.aliases || []))
+          .filter((name) => name.startsWith(input));
 
         if (candidates.length === 1) {
           setInput(candidates[0] + " ");
@@ -112,6 +125,7 @@ function TerminolInner({
       onAbortInteractive={abortInteractive}
       onCloseModal={closeModal}
       onHideOverlay={hideOverlay}
+      header={header}
     />
   );
 }
@@ -130,10 +144,9 @@ export function Terminol(props: TerminolProps) {
       theme={props.theme}
       pluginProps={props.pluginProps}
       storageKey={props.storageKey}
+      middlewares={props.middlewares}
     >
-      <TerminolInner
-        className={props.className}
-      />
+      <TerminolInner className={props.className} header={props.header} />
     </TerminolProvider>
   );
 }

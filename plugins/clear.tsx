@@ -1,4 +1,4 @@
-import { TerminolPlugin } from "../core/types";
+import type { TerminolPlugin } from "../core/types";
 
 export const clearPlugin: TerminolPlugin = {
   name: "clear",

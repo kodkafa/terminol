@@ -1,5 +1,10 @@
 # Terminol
 
+![Terminol Screenshot](https://kodkafa.com/terminol.png)
+
+[Live Demo](https://kodkafa.com) 
+
+
 ## What is Terminol?
 
 Terminol 💊 is a browser-based, plugin-driven terminal component for React applications. It is designed to feel like a real terminal while staying fully compatible with modern UI systems like **shadcn/ui** and **Tailwind CSS**.
@@ -24,6 +29,12 @@ Once the terminal concept was working well, the scope expanded: if we are buildi
 
 ```bash
 npx shadcn@latest add https://www.kodkafa.com/registry/terminol.json
+```
+
+### Sample Plugins
+```bash
+npx shadcn@latest add https://www.kodkafa.com/registry/terminol/logo.json
+npx shadcn@latest add https://www.kodkafa.com/registry/terminol/welcome.json
 ```
 
 
@@ -159,14 +170,17 @@ interface TerminolProps {
   initialHistory?: string[];
   onCommandExecuted?: (command: string, ctx: TerminolCommandContext) => void;
 
-  // Theming
   theme?: TerminolTheme;
+  header?: React.ReactNode; // Custom header content (e.g. badges, links)
 
   // Plugin configuration
   pluginProps?: Record<string, unknown>;
 
   // Persistence
   storageKey?: string; // prefix for localStorage keys
+
+  // Middlewares
+  middlewares?: TerminolMiddleware[];
 }
 ```
 
@@ -180,6 +194,7 @@ export interface TerminolTheme {
   line?: string;
   prompt?: string;
   input?: string;
+  cursor?: string;
   overlay?: string;
   modal?: string;
   success?: string;
@@ -187,6 +202,7 @@ export interface TerminolTheme {
   error?: string;
   info?: string;
   muted?: string;
+  accent?: string;
 }
 ```
 
@@ -222,8 +238,18 @@ export interface TerminolPlugin {
   description: string;                // shown in help
   aliases?: string[];                 // alternative names (e.g., ["hi", "hello"])
   tags?: string[];                    // used for filtering (e.g., "code", "system")
+  category?: TerminolPluginCategory;  // grouping for help (core, system, user, etc.)
+  hidden?: boolean;                   // hide from help if true
+  component?: React.ComponentType<unknown>; // UI component (advanced usage)
   action?: (ctx: TerminolCommandContext) => Promise<void> | void;
 }
+
+export type TerminolPluginCategory =
+  | "core"
+  | "system"
+  | "user"
+  | "demo"
+  | "content";
 ```
 
 ### TerminolCommandContext
@@ -242,7 +268,7 @@ export type TerminolCommandContext = {
   setPrompt: (prompt: string) => void;
 
   // Command execution
-  execute: (raw: string) => Promise<void>; // run another command programmatically
+  execute: (command: string, options?: { silent?: boolean }) => Promise<void>; // run another command programmatically
 
   // UI
   openModal: (content: React.ReactNode, options?: ModalOptions) => void;
@@ -262,6 +288,11 @@ export type TerminolCommandContext = {
   theme: TerminolTheme;
   props: Record<string, unknown>;
 };
+
+export type TerminolMiddleware = (
+  command: string,
+  ctx: TerminolCommandContext,
+) => void | Promise<void>;
 ```
 
 ---

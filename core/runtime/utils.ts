@@ -1,4 +1,4 @@
-import { ClassValue, clsx } from "clsx";
+import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -16,7 +16,6 @@ export function saveToStorage(key: string, value: string): void {
 }
 
 export function removeFromStorage(key: string): void {
-    if (typeof window === "undefined" || !window.localStorage) return;
-    window.localStorage.removeItem(key);
+  if (typeof window === "undefined" || !window.localStorage) return;
+  window.localStorage.removeItem(key);
 }
-

@@ -10,7 +10,10 @@ export class HistoryManager {
   add(command: string) {
     if (!command.trim()) return;
     // Don't add if same as last command
-    if (this.history.length > 0 && this.history[this.history.length - 1] === command) {
+    if (
+      this.history.length > 0 &&
+      this.history[this.history.length - 1] === command
+    ) {
       this.pointer = this.history.length;
       return;
     }
