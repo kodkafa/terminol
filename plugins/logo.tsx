@@ -1,6 +1,6 @@
 import {
-  AnimatedSpan,
-  TypingAnimation,
+	AnimatedSpan,
+	TypingAnimation,
 } from "@/components/ui/shadcn-io/terminal";
 import type { TerminolPlugin } from "@/components/ui/terminol/terminol-registry";
 import { cn } from "@/lib/utils";
@@ -19,29 +19,29 @@ export const asciiArtTerminol = `
 `;
 
 export const logoPlugin: TerminolPlugin = {
-  name: "logo",
-  description: "Show logo",
-  action: ({ print, theme }) => {
-    print(
-      <TypingAnimation
-        delay={0}
-        duration={5}
-        className={cn(
-          theme?.info || "leading-[1em] tracking-[-.1em] text-green-400",
-          "block  select-none overflow-x-hidden",
-        )}
-      >
-        {asciiArtTerminol}
-      </TypingAnimation>,
-    );
-    print(
-      <AnimatedSpan
-        delay={3000}
-        className="text-indigo-600 dark:text-indigo-400"
-      >
-        Terminol 💊 is a plugin-driven terminal component for React
-        applications.
-      </AnimatedSpan>,
-    );
-  },
+	name: "logo",
+	description: "Show logo",
+	action: ({ print, theme }) => {
+		print(
+			<TypingAnimation
+				delay={0}
+				duration={5}
+				className={cn(
+					theme?.info || "leading-[1em] tracking-[-.1em] text-green-400",
+					"block  select-none overflow-x-hidden",
+				)}
+			>
+				{asciiArtTerminol}
+			</TypingAnimation>,
+		);
+		print(
+			<AnimatedSpan
+				delay={3000}
+				className="text-indigo-600 dark:text-indigo-400"
+			>
+				Terminol 💊 is a plugin-driven terminal component for React
+				applications.
+			</AnimatedSpan>,
+		);
+	},
 };

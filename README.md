@@ -1,6 +1,6 @@
 # Terminol
 
-![Terminol Screenshot](https://kodkafa.com/terminol.png)
+![Terminol Screenshot](terminol.gif)
 
 [Live Demo](https://kodkafa.com) 
 
@@ -28,13 +28,13 @@ Once the terminal concept was working well, the scope expanded: if we are buildi
 ## Installation
 
 ```bash
-npx shadcn@latest add https://www.kodkafa.com/registry/terminol.json
+npx shadcn@latest add https://www.kodkafa.com/r/terminol.json
 ```
 
 ### Sample Plugins
 ```bash
-npx shadcn@latest add https://www.kodkafa.com/registry/terminol/logo.json
-npx shadcn@latest add https://www.kodkafa.com/registry/terminol/welcome.json
+npx shadcn@latest add https://www.kodkafa.com/r/terminol/logo.json
+npx shadcn@latest add https://www.kodkafa.com/r/terminol/welcome.json
 ```
 
 

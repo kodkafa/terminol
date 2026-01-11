@@ -5,7 +5,7 @@
 import type { TerminolPlugin } from "./core/types";
 
 export function createPlugin(plugin: TerminolPlugin): TerminolPlugin {
-  return plugin;
+	return plugin;
 }
 
 // Re-export core types for easier access
