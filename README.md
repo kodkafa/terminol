@@ -109,9 +109,11 @@ The core is intentionally headless and UI-agnostic; only the adapter knows about
 Minimal example in a page:
 
 ```tsx
-import { Terminol } from "@/components/ui/terminol/core/terminol";
+"use client";
+
 import { TerminolPlugin } from "@/components/ui/terminol/core/types";
-import { AnimatedSpan } from "@/components/ui/shadcn-io/terminal";
+import { Terminol } from "@/components/ui/terminol/terminol";
+import { AnimatedSpan } from "@/components/ui/terminol/ui/animations";
 
 export default function TerminalPage() {
 
@@ -137,7 +139,7 @@ const welcomePlugin: TerminolPlugin = {
 };
 
   return (
-    <div className="h-[500px] w-full border rounded-md overflow-hidden">
+    <div className="p-8">
       <Terminol
         prompt="user@dev:~$ "
         init={["welcome"]}
